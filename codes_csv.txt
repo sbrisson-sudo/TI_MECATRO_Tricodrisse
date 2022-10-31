@@ -1,0 +1,36 @@
+PROGRAM SR_Example 
+
+VAR  
+	fbWrite :FFU.FB_CsvWrite;  
+	xCmdWrite :BOOL;  
+	asCsvTable:ARRAY[0..c_uiNumOfRows-1,0..c_uiNumOfColumns-  
+	1] OF STRING(c_uiLengthOfValue);  
+	stCsvTable: FFU.ST_CsvTable;  
+END_VAR  
+
+VAR CONSTANT  
+	c_uiNumOfRows :UINT:= 8;  
+	c_uiNumOfColumns :UINT:= 7;  
+	c_uiLengthOfValue :UINT:= 80;  
+END_VAR  
+
+fbWrite.i_stTableWriteValues.pbyTable := ADR(asCsvTable);  
+fbWrite.i_stTableWriteValues.uiNumOfRows := c_uiNumOfRows;  
+fbWrite.i_stTableWriteValues.uiNumOfColumns := c_uiNumOfColumns;
+fbWrite.i_stTableWriteValues.udiSizeOfTable := SIZEOF(asCsvTable);  
+fbWrite.i_stWriteParameter.sDelimiter := ';';  
+fbWrite.i_stWriteParameter.etModeFileOpen := FFU.ET_ModeFileOpen.Append;  
+fbWrite.i_stWriteParameter.uiNumOfRows := 3;  
+fbWrite.i_stWriteParameter.uiNumOfColumns := c_uiNumOfColumns;  
+fbWrite(  
+	i_xExecute:= xCmdWrite,  
+	i_sFilePath:= '/sd0/Example.csv',  
+	i_stWriteParameter:= ,  
+	i_timTimeout:= ,  
+	i_stTableWriteValues:= ,  
+	q_xDone=> ,  
+	q_xBusy=> ,  
+	q_xError=> ,  
+	q_etResult=> ,  
+	q_sResultMsg=> ,  
+	q_stFileInformation=> );
